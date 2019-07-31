@@ -1,0 +1,31 @@
+import {Camera, Permissions} from 'expo';
+import * as ImagePicker from 'expo-image-picker';
+import Constants from 'expo-constants';
+
+getPermissionAsync = async () => {
+    if (Constants.platform.ios) {
+      const { status } = await Permissions.getAsync(
+        Permissions.CAMERA
+        );
+      Permissions.askAsync(Permissions.CAMERA);  
+      if (status !== 'granted') {
+        alert('Sorry, we need permissions to make this work!');
+      }
+    }
+  };
+
+
+ _openCamera = async () => {
+    let result = await ImagePicker.launchCameraAsync()({
+      mediaTypes: ImagePicker.MediaTypeOptions.Videos,
+      allowsEditing: true,
+      aspect: [4, 3],
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      this.setState({ video: result.uri });
+    }
+  }; //end _openCamera
+}
